@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumina — AI Agent System</title>
+  <meta name="description" content="Lumina: Full-stack multi-agent AI system with 5 specialist agents — data analysis, coding, scheduling, learning, and troubleshooting." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+
+<!-- ── Animated Background ─────────────────────────────────────────────────── -->
+<div class="bg-orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- ── App Shell ───────────────────────────────────────────────────────────── -->
+<div class="app-shell" id="app">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">Lumina</span>
+      <span class="logo-tag">AI</span>
+    </div>
+
+    <!-- Status indicator -->
+    <div class="connection-status" id="connStatus">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Connecting…</span>
+    </div>
+
+    <!-- Skill selector -->
+    <nav class="skill-nav" aria-label="Skill selection">
+      <p class="nav-label">SKILLS</p>
+
+      <button class="skill-btn active" data-skill="auto" id="skill-auto">
+        <span class="skill-icon">🌟</span>
+        <span class="skill-name">Auto-detect</span>
+        <span class="skill-desc">Let Lumina choose</span>
+      </button>
+
+      <button class="skill-btn" data-skill="data" id="skill-data">
+        <span class="skill-icon">📊</span>
+        <span class="skill-name">Data Analysis</span>
+        <span class="skill-desc">Stats &amp; visualisations</span>
+      </button>
+
+      <button class="skill-btn" data-skill="code" id="skill-code">
+        <span class="skill-icon">💻</span>
+        <span class="skill-name">Code Assistant</span>
+        <span class="skill-desc">Debug &amp; execute</span>
+      </button>
+
+      <button class="skill-btn" data-skill="schedule" id="skill-schedule">
+        <span class="skill-icon">📅</span>
+        <span class="skill-name">Scheduler</span>
+        <span class="skill-desc">Reminders &amp; tasks</span>
+      </button>
+
+      <button class="skill-btn" data-skill="learn" id="skill-learn">
+        <span class="skill-icon">🎓</span>
+        <span class="skill-name">Learning Mode</span>
+        <span class="skill-desc">Adaptive explanations</span>
+      </button>
+
+      <button class="skill-btn" data-skill="troubleshoot" id="skill-troubleshoot">
+        <span class="skill-icon">🔧</span>
+        <span class="skill-name">Troubleshoot</span>
+        <span class="skill-desc">Root-cause analysis</span>
+      </button>
+    </nav>
+
+    <!-- Quick prompts -->
+    <div class="quick-prompts">
+      <p class="nav-label">QUICK START</p>
+      <button class="quick-btn" data-prompt="Explain recursion to a beginner">🎓 Explain recursion</button>
+      <button class="quick-btn" data-prompt="Show my reminders">📋 Show reminders</button>
+      <button class="quick-btn" data-prompt="How do I fix a KeyError in Python?">🔧 Fix KeyError</button>
+      <button class="quick-btn" data-prompt="Run this code:\n```python\nfor i in range(5):\n    print(i**2)\n```">💻 Run sample code</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <span class="footer-text">Lumina v1.0.0</span>
+      <a href="/docs" target="_blank" class="footer-link">API Docs ↗</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Chat Area ──────────────────────────────────────────────────── -->
+  <main class="chat-area">
+
+    <!-- Top bar -->
+    <header class="chat-header">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+      <div class="chat-header-info">
+        <h1 class="chat-title" id="chatTitle">🌟 Lumina — Auto-detect</h1>
+        <p class="chat-subtitle" id="chatSubtitle">Multi-agent AI system</p>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="clearBtn" title="Clear chat" aria-label="Clear chat">🗑️</button>
+        <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    <div class="messages-container" id="messages" role="log" aria-live="polite" aria-label="Chat messages">
+      <!-- Welcome message injected by JS -->
+    </div>
+
+    <!-- Typing indicator -->
+    <div class="typing-indicator hidden" id="typingIndicator" aria-live="polite">
+      <div class="typing-avatar">✦</div>
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="typing-label" id="typingLabel">Lumina is thinking…</span>
+    </div>
+
+    <!-- Input area -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <div class="skill-pill" id="currentSkillPill">
+          <span id="skillPillIcon">🌟</span>
+          <span id="skillPillName">Auto</span>
+        </div>
+        <textarea
+          id="messageInput"
+          class="message-input"
+          placeholder="Ask Lumina anything… or paste code / CSV data"
+          rows="1"
+          aria-label="Message input"
+          maxlength="10000"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for newline · <kbd>Ctrl+K</kbd> for code block</p>
+    </div>
+  </main>
+
+</div>
+
+<!-- ── Toast container ──────────────────────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer" aria-live="assertive"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
