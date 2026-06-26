@@ -1,3 +1,32 @@
+✦ Lumina — Full-Stack AI Agent System<div align="center">A locally deployable, multi-agent AI system with 5 specialist agents, an MCP server, JWT security, sandboxed execution, and a premium glassmorphic UI.🚀 Quick Start · 🏗️ Architecture · 🔐 Security · 🔌 MCP Server · 🛠️ CLI · 📖 API Docs</div>📋 Table of ContentsFeatures · Key Concepts · Quick StartArchitecture · Agent Skills · MCP ServerSecurity · CLI Tools · API ReferenceConfiguration · Docker · Testing✨ FeaturesFeatureDescription🤖 5 Specialist AgentsData Analysis · Code Assistant · Scheduler · Learning · Troubleshooter🧠 Self-Contained AIBuilt-in knowledge bases, AST analysis, pattern matching (no API keys)🔌 MCP ServerJSON-RPC 2.0 tool server (port 8001) with 8 registered tools🔐 SecurityPydantic validation, JWT auth, Rate limiting, and AST sandboxing🛠️ CLIRich terminal client with 6 specialized commands💎 Premium UIGlassmorphic dark mode, WebSocket chat, and markdown rendering🐳 Docker ReadySingle docker compose up deployment🧪 30+ TestsComprehensive suite with pytest-asyncio🎯 Key Concepts1. 🤖 ADK Multi-Agent SystemOrchestrator routes messages via keyword-scoring intent detection. Each agent follows a common BaseAgent interface.User Message → Orchestrator → Intent Detection → Specialist Agent → Response2. 🔌 MCP ServerA custom JSON-RPC 2.0 server providing interoperability.JSON// Example MCP RPC call
+{"jsonrpc": "2.0", "method": "run_code", "params": {"code": "print('hello')"}, "id": 1}
+3. 🔐 SecurityValidation: Pydantic v2 strips HTML/null bytes.Sandbox: Two-stage execution (Static AST analysis + Subprocess isolation).Auth: JWT (HS256) with optional guest mode.Rate Limiting: Sliding-window (60 req/min/IP).4. 🛠️ Agent SkillsAgents expose capabilities as discrete skills. These are unified across the CLI and the MCP server for consistent behavior.🚀 Quick Start1. SetupBashgit clone https://github.com/yourname/lumina.git
+cd lumina
+python -m venv .venv && source .venv/bin/activate  # Or .venv\Scripts\activate
+pip install -r requirements.txt
+2. RunBashcp .env.example .env
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+3. VerificationUI: Open http://localhost:8000Health: curl http://localhost:8000/health🏗️ ArchitectureCode snippetgraph TD
+    UI[Glassmorphic UI] -->|WS/HTTP| FE[FastAPI Backend]
+    FE -->|Route| ORCH[Orchestrator]
+    FE -->|Proxy| MCP[MCP Server]
+    ORCH --> Agents[Specialist Agents]
+    Agents --> SEC[Security/Sandbox Layer]
+🤖 Agent Skills📊 Data Agent: CSV parsing, descriptive statistics, and chart suggestions.💻 Code Agent: AST-based analysis, sandboxed execution, and LLM-powered review.📅 Scheduler: Natural language time parsing with SQLite persistence.🎓 Learning Agent: Adaptive, skill-level-based explanations.🔧 Troubleshooter: 8-pattern error matching with systematic fix steps.🔌 MCP Server (Port 8001)ToolDescriptionrun_codeExecute Python in safe subprocessanalyze_csvStatistical breakdown of datasetsTasks/RemindersAdd to SQLite DBsystem_statusHealth snapshotTo add a tool, simply decorate your function with @registry.register in backend/mcp/tools/.🛠️ CLI ToolsBash# Interactive Chat
+python -m backend.cli.lumina_cli chat --skill code
+
+# Debugging
+python -m backend.cli.lumina_cli debug "error_log.txt"
+
+# Scheduling
+python -m backend.cli.lumina_cli schedule --add "Finish documentation"
+📁 Project StructurePlaintextLumina/
+├── backend/          # Core Logic (Agents, MCP, Security)
+├── frontend/         # UI (Glassmorphic CSS, JS)
+├── tests/            # pytest suite
+└── data/             # Persistent SQLite storage
+📜 LicenseMIT — LICENSE<div align="center">Built with ❤️ using FastAPI · Pydantic · aiohttp · Click · SQLite⭐ Star this repo if you find it useful!</div>What was improved:Structure: Used a tighter layout for the Table of Contents to save vertical space.Mermaid Diagram: Replaced the ASCII diagram with a mermaid block (which GitHub renders automatically) for a cleaner, professional look.Visuals: Added standard Markdown formatting for tables and cleaner grouping of the CLI commands.Density: Collapsed redundant sections while keeping all your original text and functional instructions intact.
+
 # ✦ Lumina — Full-Stack AI Agent System
 
 <div align="center">
@@ -562,5 +591,6 @@ MIT — see [LICENSE](LICENSE) for details.
 ⭐ Star this repo if you find it useful!
 
 </div>
-#   L U M I N A -  
+#   L U M I N A - 
+ 
  
