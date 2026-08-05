@@ -8,7 +8,7 @@
 ![MCP](https://img.shields.io/badge/MCP-JSON--RPC%202.0-22d3ee?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**A locally deployable, multi-agent AI system with 5 specialist agents, an MCP server, JWT security, sandboxed execution, and a premium glassmorphic UI.**
+**Lumina is a locally runnable AI agent platform that combines a FastAPI backend, web UI, MCP tool server, JWT security, and five specialist agents. It works offline without external API keys, so you can deploy and test it on your machine with minimal setup.**
 
 [🚀 Quick Start](#-quick-start) · [🏗️ Architecture](#️-architecture) · [🔐 Security](#-security) · [🔌 MCP Server](#-mcp-server) · [🛠️ CLI](#️-cli-tools) · [📖 API Docs](#-api-reference)
 
